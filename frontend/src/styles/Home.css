@@ -1,0 +1,101 @@
+/* src/styles/Home.css */
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, sans-serif;
+  background: #fffefc;
+  overflow-x: hidden;
+}
+
+/* Main wrapper */
+.home-wrapper {
+  padding-top: 70px; /* space for navbar */
+  padding-bottom: 2rem;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* Carousel container with full width */
+.home-carousel {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+}
+
+/* Caption styling */
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.55);
+  padding: 12px 16px;
+  border-radius: 8px;
+}
+
+/* Intro section */
+.intro-section {
+  text-align: center;
+  margin: 1rem auto 2rem;
+  padding: 0 1rem;
+  max-width: 800px;
+}
+
+.intro-section h2 {
+  color: #ff5e62;
+  font-size: 28px;
+  margin-bottom: 12px;
+}
+
+.intro-section p {
+  font-size: 16px;
+  color: #555;
+  line-height: 1.5;
+}
+
+/* Menu grid spacing (inherits from Menu.css) */
+.menu-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Footer CTA */
+.footer-note {
+  text-align: center;
+  margin-top: 2.5rem;
+}
+
+.footer-note button {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: #ff9966;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.footer-note button:hover {
+  background-color: #ff7744;
+}
+
+.footer-note p {
+  font-style: italic;
+  color: #888;
+  font-size: 14px;
+  margin-top: 0.5rem;
+}
+
+/* Responsive tweaks */
+@media screen and (max-width: 768px) {
+  .intro-section h2 {
+    font-size: 22px;
+  }
+
+  .home-carousel,
+  .menu-container {
+    padding: 0 1rem;
+  }
+}
