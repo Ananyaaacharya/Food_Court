@@ -1,3 +1,4 @@
+//frontend\src\pages\CartPage.jsx
 import React, { useContext } from 'react';
 import { Card, Button, Row, Col } from 'react-bootstrap';
 import { CartContext } from '../components/CartContext'; 

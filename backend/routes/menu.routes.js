@@ -1,4 +1,7 @@
+// backend/routes/menu.routes.js
+
 import express from "express";
+import multer from "multer";
 import {
   getMenuByCategory,
   addMenuItem,
@@ -8,12 +11,15 @@ import {
 
 const router = express.Router();
 
-// 📦 GET menu items by category
+// 🖼 Multer setup for image uploads (stored in /uploads)
+const upload = multer({ dest: "uploads/" });
+
+// 📦 GET menu items by category (accessible to all)
 router.get("/:category", getMenuByCategory);
 
-// 🛠 Admin CRUD routes
-router.post("/", addMenuItem);
-router.put("/:id", updateMenuItem);
-router.delete("/:id", deleteMenuItem);
+// 🛠 Admin routes with image support
+router.post("/", upload.single("image"), addMenuItem);         // ➕ Add with image
+router.put("/:id", upload.single("image"), updateMenuItem);    // ✏️ Update with image
+router.delete("/:id", deleteMenuItem);                         // 🗑️ Delete without image
 
 export default router;

@@ -2,17 +2,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #ffa07a;
+  background: linear-gradient(to right, #ffa07a, #ff7f50); /* Matches vendor style with a softer orange tone */
   padding: 12px 24px;
   position: sticky;
   top: 0;
-  z-index: 100;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 999;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .nav-logo {
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 600;
   color: white;
 }
 
@@ -38,17 +38,19 @@
   background-color: rgba(255, 255, 255, 0.2);
 }
 
+/* Logout button styled like vendor button */
 .logout-btn {
   background-color: white;
-  color: #e06666;
+  color: #ff7f50;
   border: none;
   padding: 6px 12px;
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.3s, color 0.3s;
 }
 
 .logout-btn:hover {
-  background-color: #ffd6d6;
+  background-color: #ffd6c4;
+  color: #e85c3f;
 }

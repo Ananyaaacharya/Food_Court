@@ -8,6 +8,7 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import menuRoutes from "./routes/menu.routes.js";
 
+
 dotenv.config();
 
 const app = express();
@@ -28,6 +29,8 @@ app.use(express.json());
 // 📁 Mount routes
 app.use("/api/auth", authRoutes);   // 🔐 Register & login
 app.use("/menu", menuRoutes);       // 🍱 Item endpoints by category
+app.use("/uploads", express.static("uploads"));
+
 
 // 🩺 Health check
 app.get("/", (req, res) => {

@@ -7,35 +7,35 @@ const menuItems = [
   {
     src: 'breakfast.jpg',
     alt: 'Breakfast',
-    link: '/breakfast',
+    link: '/menu/breakfast', // ✅ corrected
     title: 'Breakfast',
     description: 'Start your day with a healthy breakfast.'
   },
   {
     src: 'meals.JPG',
     alt: 'Meal',
-    link: '/meals', 
+    link: '/menu/meals',
     title: 'Meal',
     description: 'Delicious meals to satisfy your hunger.'
   },
   {
     src: 'snacks.jpg',
     alt: 'Snacks',
-    link: '/snacks', // Link to /snacks route (example)
+    link: '/menu/snacks',
     title: 'Snacks',
     description: 'Tasty snacks for a quick bite.'
   },
   {
     src: 'egg.jpeg',
     alt: 'Egg Items',
-    link: '/egg-items', 
+    link: '/menu/egg-items',
     title: 'Egg Items',
     description: 'A variety of egg dishes for you.'
   },
   {
     src: 'chicken.jpeg',
     alt: 'Chicken Items',
-    link: '/chicken-items', 
+    link: '/menu/chicken-items',
     title: 'Chicken Items',
     description: 'Delicious chicken dishes to relish.'
   }

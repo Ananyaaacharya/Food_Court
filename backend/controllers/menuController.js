@@ -1,6 +1,8 @@
 // backend/controllers/menuController.js
 
 import MenuItem from "../models/MenuItem.js";
+import fs from "fs";
+import path from "path";
 
 export const getMenuByCategory = async (req, res) => {
   try {
@@ -17,7 +19,20 @@ export const getMenuByCategory = async (req, res) => {
 
 export const addMenuItem = async (req, res) => {
   try {
-    const newItem = new MenuItem(req.body);
+    const { name, price, category } = req.body;
+    const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+
+    if (!name || !price || !category || !imagePath) {
+      return res.status(400).json({ error: "Name, price, category, and image are required." });
+    }
+
+    const newItem = new MenuItem({
+      name,
+      price,
+      category,
+      image: imagePath
+    });
+
     const savedItem = await newItem.save();
     res.status(201).json(savedItem);
   } catch (err) {
@@ -28,9 +43,26 @@ export const addMenuItem = async (req, res) => {
 
 export const updateMenuItem = async (req, res) => {
   try {
-    const updated = await MenuItem.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    if (!updated) return res.status(404).json({ error: "Item not found" });
-    res.json(updated);
+    const { name, price } = req.body;
+    const item = await MenuItem.findById(req.params.id);
+    if (!item) return res.status(404).json({ error: "Item not found" });
+
+    item.name = name || item.name;
+    item.price = price || item.price;
+
+    if (req.file) {
+      // delete old image if needed
+      if (item.image && item.image.startsWith("/uploads/")) {
+        const filePath = path.join("uploads", path.basename(item.image));
+        fs.unlink(filePath, (err) => {
+          if (err) console.warn("Failed to delete old image:", err);
+        });
+      }
+      item.image = `/uploads/${req.file.filename}`;
+    }
+
+    const updatedItem = await item.save();
+    res.json(updatedItem);
   } catch (err) {
     console.error("Update error:", err);
     res.status(500).json({ error: "Server error" });
@@ -39,8 +71,17 @@ export const updateMenuItem = async (req, res) => {
 
 export const deleteMenuItem = async (req, res) => {
   try {
-    const deleted = await MenuItem.findByIdAndDelete(req.params.id);
-    if (!deleted) return res.status(404).json({ error: "Item not found" });
+    const item = await MenuItem.findByIdAndDelete(req.params.id);
+    if (!item) return res.status(404).json({ error: "Item not found" });
+
+    // delete image if it's a local file
+    if (item.image && item.image.startsWith("/uploads/")) {
+      const filePath = path.join("uploads", path.basename(item.image));
+      fs.unlink(filePath, (err) => {
+        if (err) console.warn("Failed to delete image:", err);
+      });
+    }
+
     res.json({ message: "Item deleted" });
   } catch (err) {
     console.error("Delete error:", err);
