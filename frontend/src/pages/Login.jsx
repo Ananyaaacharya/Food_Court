@@ -21,9 +21,13 @@ export default function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await API.post("/api/auth/login", form); // ✅ fixed path
+      const res = await API.post("/api/auth/login", form);
+
+      // ✅ Save JWT token and user info
+      localStorage.setItem("token", res.data.token);         // ✅ token
       localStorage.setItem("userType", res.data.userType);
       localStorage.setItem("fullName", res.data.fullName || "");
+
       alert(`Welcome back, ${res.data.fullName || "user"}!`);
       navigate("/home");
     } catch (err) {

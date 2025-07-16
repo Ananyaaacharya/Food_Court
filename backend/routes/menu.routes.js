@@ -1,25 +1,26 @@
-// backend/routes/menu.routes.js
-
 import express from "express";
 import multer from "multer";
 import {
-  getMenuByCategory,
   addMenuItem,
+  getMenuByCategory,
   updateMenuItem,
   deleteMenuItem
 } from "../controllers/menuController.js";
 
 const router = express.Router();
 
-// 🖼 Multer setup for image uploads (stored in /uploads)
-const upload = multer({ dest: "uploads/" });
+// configure multer for image upload
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => cb(null, "uploads/"),
+  filename: (req, file, cb) => cb(null, Date.now() + "-" + file.originalname),
+});
+const upload = multer({ storage });
 
-// 📦 GET menu items by category (accessible to all)
+// ✅ This route MUST be defined
+router.post("/", upload.single("image"), addMenuItem);
+
 router.get("/:category", getMenuByCategory);
-
-// 🛠 Admin routes with image support
-router.post("/", upload.single("image"), addMenuItem);         // ➕ Add with image
-router.put("/:id", upload.single("image"), updateMenuItem);    // ✏️ Update with image
-router.delete("/:id", deleteMenuItem);                         // 🗑️ Delete without image
+router.put("/:id", upload.single("image"), updateMenuItem);
+router.delete("/:id", deleteMenuItem);
 
 export default router;

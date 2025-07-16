@@ -20,24 +20,18 @@ export const getMenuByCategory = async (req, res) => {
 export const addMenuItem = async (req, res) => {
   try {
     const { name, price, category } = req.body;
-    const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+    const image = req.file ? `/uploads/${req.file.filename}` : null;
 
-    if (!name || !price || !category || !imagePath) {
-      return res.status(400).json({ error: "Name, price, category, and image are required." });
+    if (!name || !price || !category || !image) {
+      return res.status(400).json({ error: "All fields are required." });
     }
 
-    const newItem = new MenuItem({
-      name,
-      price,
-      category,
-      image: imagePath
-    });
-
+    const newItem = new MenuItem({ name, price, category, image });
     const savedItem = await newItem.save();
     res.status(201).json(savedItem);
   } catch (err) {
-    console.error("Add error:", err);
-    res.status(400).json({ error: "Invalid data" });
+    console.error("Add item error:", err);
+    res.status(500).json({ error: "Server error" });
   }
 };
 
@@ -51,7 +45,6 @@ export const updateMenuItem = async (req, res) => {
     item.price = price || item.price;
 
     if (req.file) {
-      // delete old image if needed
       if (item.image && item.image.startsWith("/uploads/")) {
         const filePath = path.join("uploads", path.basename(item.image));
         fs.unlink(filePath, (err) => {
@@ -74,7 +67,6 @@ export const deleteMenuItem = async (req, res) => {
     const item = await MenuItem.findByIdAndDelete(req.params.id);
     if (!item) return res.status(404).json({ error: "Item not found" });
 
-    // delete image if it's a local file
     if (item.image && item.image.startsWith("/uploads/")) {
       const filePath = path.join("uploads", path.basename(item.image));
       fs.unlink(filePath, (err) => {
